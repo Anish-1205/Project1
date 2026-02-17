@@ -9,9 +9,10 @@ CREATE TABLE IF NOT EXISTS questions (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     quiz_id BIGINT NOT NULL,
     text TEXT NOT NULL,
-    FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE,
-    INDEX idx_quiz (quiz_id)
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS idx_quiz_questions ON questions(quiz_id);
 
 CREATE TABLE IF NOT EXISTS options (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -28,10 +29,11 @@ CREATE TABLE IF NOT EXISTS user_attempts (
     start_time DATETIME NOT NULL,
     end_time DATETIME,
     score INT DEFAULT 0,
-    FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE,
-    INDEX idx_user (user_id),
-    INDEX idx_quiz (quiz_id)
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS idx_user ON user_attempts(user_id);
+CREATE INDEX IF NOT EXISTS idx_quiz_attempts ON user_attempts(quiz_id);
 
 CREATE TABLE IF NOT EXISTS responses (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -40,9 +42,10 @@ CREATE TABLE IF NOT EXISTS responses (
     selected_option_id BIGINT NOT NULL,
     FOREIGN KEY (attempt_id) REFERENCES user_attempts(id) ON DELETE CASCADE,
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
-    FOREIGN KEY (selected_option_id) REFERENCES options(id) ON DELETE CASCADE,
-    UNIQUE KEY unique_response (attempt_id, question_id)
+    FOREIGN KEY (selected_option_id) REFERENCES options(id) ON DELETE CASCADE
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS unique_response ON responses(attempt_id, question_id);
 
 INSERT INTO quizzes (title, description, duration) VALUES
 ('JavaScript Fundamentals', 'Test your JavaScript knowledge', 10),
