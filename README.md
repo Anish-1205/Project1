@@ -54,8 +54,8 @@ A full-stack web application for creating and taking timed quizzes with instant 
 
 #### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/Anish-1205/Project1.git
-cd Project1
+git clone https://github.com/Anish-1205/Quiz_platform.git
+cd Quiz_platform
 ```
 
 #### 2️⃣ Backend Setup
@@ -517,7 +517,7 @@ CREATE INDEX idx_user_quiz ON user_attempts(user_id, quiz_id);
 ## 📚 Project Structure
 
 ```
-Project1/
+Quiz_platform/
 ├── backend/
 │   ├── src/
 │   │   ├── main/
